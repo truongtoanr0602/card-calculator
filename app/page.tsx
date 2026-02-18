@@ -42,7 +42,7 @@ export default function Home() {
     if (saved) setRounds(JSON.parse(saved));
   }, []);
 
-  const handleInputChange = (index, value) => {
+  const handleInputChange = (index: any, value : any) => {
     const validatedValue = value.replace(/[^0-9.-]/g, '');
     if (validatedValue.indexOf('-', 1) !== -1) return;
     const newRounds = [...rounds];
@@ -56,7 +56,7 @@ export default function Home() {
   };
 
   // --- LOGIC CHẾ ĐỘ 2 ---
-  const handleP2Change = (rIdx, pIdx, value) => {
+  const handleP2Change = (rIdx: any, pIdx: any, value: any) => {
     const validatedValue = value.replace(/[^0-9.-]/g, '');
     if (validatedValue.indexOf('-', 1) !== -1) return;
     const newRounds = [...roundsP2];
@@ -64,9 +64,9 @@ export default function Home() {
     setRoundsP2(newRounds);
   };
 
-  const calculateRowSum = (scores) => scores.reduce((acc, s) => acc + (parseFloat(s) || 0), 0);
+  const calculateRowSum = (scores: any) => scores.reduce((acc: any, s: any) => acc + (parseFloat(s) || 0), 0);
 
-  const getPlayerTotal = (pIdx) => roundsP2.reduce((acc, row) => acc + (parseFloat(row.scores[pIdx]) || 0), 0);
+  const getPlayerTotal = (pIdx: any) => roundsP2.reduce((acc, row) => acc + (parseFloat(row.scores[pIdx]) || 0), 0);
 
   return (
     <main className="min-h-screen bg-amber-50 p-4 pb-32 font-sans text-gray-900">
