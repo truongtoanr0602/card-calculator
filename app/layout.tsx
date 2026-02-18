@@ -16,7 +16,7 @@ export const metadata = {
   title: 'Tính Tiền Tết 2026',
   description: 'Ứng dụng tính tiền đánh bài chuyên nghiệp',
   icons: {
-    icon: 'card-calculator\public\favicon.ico', // Đường dẫn đến file trong thư mục public
+    icon: '/favicon.ico', // Đường dẫn đến file trong thư mục public
   },
 };
 
