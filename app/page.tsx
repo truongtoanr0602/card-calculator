@@ -22,16 +22,13 @@ export default function Home() {
 
   // --- LOGIC CHUNG & CHẾ ĐỘ 1 ---
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-  const hasData = mode === 1 
-    ? rounds.some(v => v !== "") 
-    : roundsP2.some(r => r.scores.some(s => s !== ""));
-    
-  if (hasData) {
-    e.preventDefault();
-    e.returnValue = ''; 
-  }
-};
+    const handleBeforeUnload = (e:any) => {
+      const hasData = mode === 1 ? rounds.some(v => v !== "") : roundsP2.some(r => r.scores.some(s => s !== ""));
+      if (hasData) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [rounds, roundsP2, mode]);
