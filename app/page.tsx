@@ -90,7 +90,7 @@ export default function Home() {
                 <div key={idx} className={`grid grid-cols-2 border-b border-amber-50 ${idx % 2 === 0 ? 'bg-orange-50/20' : ''}`}>
                   <div className="p-3 text-center font-bold text-gray-400 border-r border-amber-50">#{idx + 1}</div>
                   <input
-                    type="text" inputMode="numeric" value={val}
+                    type="text" inputMode="decimal" value={val}
                     onChange={(e) => handleInputChange(idx, e.target.value)}
                     placeholder="0"
                     className={`w-full p-3 text-center bg-transparent focus:outline-none focus:bg-white transition-all font-bold text-lg 
