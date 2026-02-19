@@ -64,6 +64,38 @@ export default function Home() {
     setRoundsP2(newRounds);
   };
 
+  // Doi dau
+
+  // Hàm đảo dấu cho Chế độ 1
+const toggleSignP1 = (index: any) => {
+  const newRounds = [...rounds];
+  let val = newRounds[index];
+  if (val === "") return;
+  
+  if (val.startsWith("-")) {
+    newRounds[index] = val.substring(1);
+  } else {
+    newRounds[index] = "-" + val;
+  }
+  setRounds(newRounds);
+};
+
+// Hàm đảo dấu cho Chế độ 2
+const toggleSignP2 = (rIdx: any, pIdx: any) => {
+  const newRounds = [...roundsP2];
+  let val = newRounds[rIdx].scores[pIdx];
+  if (val === "") return;
+
+  if (val.startsWith("-")) {
+    newRounds[rIdx].scores[pIdx] = val.substring(1);
+  } else {
+    newRounds[rIdx].scores[pIdx] = "-" + val;
+  }
+  setRoundsP2(newRounds);
+};
+
+
+
   const calculateRowSum = (scores: any) => scores.reduce((acc: any, s: any) => acc + (parseFloat(s) || 0), 0);
 
   const getPlayerTotal = (pIdx: any) => roundsP2.reduce((acc, row) => acc + (parseFloat(row.scores[pIdx]) || 0), 0);
@@ -87,16 +119,25 @@ export default function Home() {
             </div>
             <div className="max-h-[50vh] overflow-y-auto border-b border-amber-100">
               {rounds.map((val, idx) => (
-                <div key={idx} className={`grid grid-cols-2 border-b border-amber-50 ${idx % 2 === 0 ? 'bg-orange-50/20' : ''}`}>
-                  <div className="p-3 text-center font-bold text-gray-400 border-r border-amber-50">#{idx + 1}</div>
-                  <input
-                    type="text" inputMode="decimal" value={val}
-                    onChange={(e) => handleInputChange(idx, e.target.value)}
-                    placeholder="0"
-                    className={`w-full p-3 text-center bg-transparent focus:outline-none focus:bg-white transition-all font-bold text-lg 
-                      ${parseFloat(val) > 0 ? 'text-green-600' : parseFloat(val) < 0 ? 'text-red-600' : 'text-gray-800'}`}
-                  />
-                </div>
+                <div key={idx} className="grid grid-cols-2 border-b border-amber-50 items-center">
+  <div className="p-3 text-center font-bold text-gray-400 border-r border-amber-50">#{idx + 1}</div>
+  <div className="relative flex items-center pr-2">
+    <input
+      type="text"
+      inputMode="numeric"
+      value={val}
+      onChange={(e) => handleInputChange(idx, e.target.value)}
+      className={`w-full p-3 text-center bg-transparent focus:outline-none font-bold text-lg 
+        ${parseFloat(val) > 0 ? 'text-green-600' : parseFloat(val) < 0 ? 'text-red-600' : 'text-gray-800'}`}
+    />
+    <button 
+      onClick={() => toggleSignP1(idx)}
+      className="absolute right-1 px-2 py-1 bg-gray-100 text-[10px] font-bold rounded-md text-gray-500 active:bg-gray-200"
+    >
+      +/-
+    </button>
+  </div>
+</div>
               ))}
             </div>
           </div>
@@ -157,9 +198,21 @@ export default function Home() {
                           <tr key={rIdx} className={`${isErr ? 'bg-red-50' : 'bg-white'} border-b border-amber-50`}>
                             <td className="p-3 text-center font-bold text-gray-300 sticky left-0 bg-inherit shadow-[1px_0_0_0_#fff7ed]">{rIdx + 1}</td>
                             {row.scores.map((score, pIdx) => (
-                              <td key={pIdx} className="p-0 border-l border-amber-50">
-                                <input type="text" inputMode="numeric" value={score} onChange={(e) => handleP2Change(rIdx, pIdx, e.target.value)} className={`w-full p-4 text-center bg-transparent focus:outline-none font-bold ${parseFloat(score) > 0 ? 'text-green-600' : parseFloat(score) < 0 ? 'text-red-600' : 'text-gray-400'}`} placeholder="0" />
-                              </td>
+                              <td key={pIdx} className="p-0 border-l border-amber-50 relative group">
+  <input 
+    type="text" 
+    inputMode="numeric" 
+    value={score} 
+    onChange={(e) => handleP2Change(rIdx, pIdx, e.target.value)} 
+    className={`w-full p-4 text-center bg-transparent focus:outline-none font-bold ${parseFloat(score) > 0 ? 'text-green-600' : parseFloat(score) < 0 ? 'text-red-600' : 'text-gray-400'}`}
+  />
+  <button 
+    onClick={() => toggleSignP2(rIdx, pIdx)}
+    className="absolute right-0 bottom-0 px-1.5 py-0.5 bg-gray-100/80 text-[8px] font-bold rounded-tl-md text-gray-400"
+  >
+    +/-
+  </button>
+</td>
                             ))}
                             <td className={`p-3 text-center font-black sticky right-0 bg-inherit shadow-[-1px_0_0_0_#fff7ed] ${isErr ? 'text-red-600 animate-pulse' : 'text-green-500'}`}>
                               {isErr ? (sum > 0 ? `+${sum}` : sum) : (row.scores.some(s => s !== "") ? "✔" : "")}
